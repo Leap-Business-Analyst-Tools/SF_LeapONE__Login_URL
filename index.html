@@ -1,184 +1,287 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>LeapOne Login Panel</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeapOne Info Panel</title>
+    <style>
+        /* --- UPDATED COLOR PALETTE --- */
+        :root {
+            /* From your palette */
+            --purple-900: #2E0F40;
+            --purple-700: #702572;
+            --purple-600: #7E3080;
+            --purple-300: #CAA5D0;
+            
+            /* Design variables */
+            --bg-gradient: linear-gradient(135deg, var(--purple-900) 0%, var(--purple-700) 100%);
+            --accent-light: var(--purple-300);
+            --brand-color: var(--purple-600);
+            --text-white: #ffffff;
+            --text-dim: rgba(255, 255, 255, 0.85);
+            
+            /* Glassmorphism styles */
+            --glass-bg: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --feature-bg: rgba(0, 0, 0, 0.15);
+        }
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-    }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Inter, Roboto, Helvetica, Arial, sans-serif;
+        }
 
-    body {
-      background-color: #702572;
-      height: 100vh;
-      overflow: hidden;
-      padding: 16px;
-    }
+        body {
+            min-height: 100vh;
+            background: var(--bg-gradient);
+            /* Subtle background pattern */
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(255,255,255,0.05) 0%, transparent 25%),
+                var(--bg-gradient);
+        }
 
-    .frame {
-      max-width: 520px;
-      margin: auto;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      overflow: hidden;
-    }
+        /* Main Container */
+        .info-pane {
+            width: 100%;
+            /* If placed in a half-width container, remove max-width & margin */
+            max-width: 800px; 
+            margin: 0 auto;
+            
+            color: var(--text-white);
+            padding: 4rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 100vh;
+        }
 
-    .logo {
-      width: 60px;
-      height: 60px;
-      border-radius: 16px;
-      background: #ffffff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 800;
-      color: #702572;
-      font-size: 22px;
-      box-shadow: 0 6px 18px rgba(0,0,0,.25);
-      margin: auto;
-    }
+        .brand-header {
+            margin-bottom: 2rem;
+        }
 
-    h1 {
-      color: white;
-      text-align: center;
-      font-size: 1.3rem;
-      margin-top: 6px;
-    }
+        .logo-box {
+            background: white;
+            color: var(--brand-color);
+            width: 54px;
+            height: 54px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 1.4rem;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            margin-bottom: 1.5rem;
+        }
 
-    .card {
-      background: white;
-      border-radius: 18px;
-      padding: 16px;
-      box-shadow: 0 10px 28px rgba(0,0,0,.25);
-      border-left: 4px solid #702572;
-      font-size: .9rem;
-      line-height: 1.55;
-      overflow: hidden;
-    }
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 1.2rem;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
 
-    .highlight {
-      background: #e7cfe8;
-      padding: 12px;
-      border-radius: 12px;
-      margin-top: 12px;
-      font-weight: 600;
-      border-left: 3px solid #702572;
-    }
+        .description {
+            font-size: 1.05rem;
+            line-height: 1.6;
+            color: var(--text-dim);
+            margin-bottom: 2.5rem;
+            max-width: 650px;
+        }
 
-    h2 {
-      color: #702572;
-      font-size: 1.1rem;
-      margin-bottom: 8px;
-    }
+        /* The "In Short" Highlight Box */
+        .highlight-box {
+            background: var(--glass-bg);
+            border-left: 5px solid var(--accent-light);
+            padding: 1.5rem 2rem;
+            border-radius: 0 12px 12px 0;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            margin-bottom: 3rem;
+            border-top: 1px solid var(--glass-border);
+            border-right: 1px solid var(--glass-border);
+        }
 
-    .features {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin-top: 8px;
-    }
+        .highlight-box strong {
+            color: var(--accent-light);
+            display: block;
+            margin-bottom: 0.75rem;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 700;
+        }
+        
+        .highlight-box p {
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
 
-    .feature {
-      background: #f0e2f2;
-      padding: 10px;
-      border-radius: 10px;
-      border-left: 3px solid #9c4fa5;
-      font-weight: 600;
-      font-size: .8rem;
-    }
+        /* Features Grid */
+        .features-section h3 {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent-light);
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
 
-    .doc-link {
-      background: #e0badf;
-      padding: 14px;
-      border-radius: 16px;
-      text-decoration: none;
-      color: #702572;
-      font-weight: 700;
-      border-left: 4px solid #702572;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 12px;
+            margin-bottom: 3rem;
+        }
 
-    .status {
-      background: white;
-      border-radius: 16px;
-      padding: 14px;
-      border-left: 4px solid #702572;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: .85rem;
-    }
+        .feature-tag {
+            background: var(--feature-bg);
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+        }
 
-    .dot {
-      width: 10px;
-      height: 10px;
-      background: #702572;
-      border-radius: 50%;
-      display: inline-block;
-    }
+        .feature-tag:hover {
+            background: var(--glass-bg);
+            border-color: var(--glass-border);
+            transform: translateY(-2px);
+        }
 
-    footer {
-      text-align: center;
-      color: white;
-      font-size: .7rem;
-      margin-top: 4px;
-    }
+        /* Custom bullet point using the accent color */
+        .feature-tag::before {
+            content: '';
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            background-color: var(--accent-light);
+            border-radius: 50%;
+            margin-right: 12px;
+            box-shadow: 0 0 8px var(--accent-light);
+        }
 
-  </style>
+        /* Footer / Status Area */
+        .info-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid rgba(255,255,255,0.15);
+            padding-top: 1.5rem;
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            margin-top: auto; /* Pushes footer to bottom */
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(0,0,0,0.25);
+            padding: 8px 14px;
+            border-radius: 30px;
+            font-weight: 600;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            background-color: #4ade80; /* Green for status */
+            border-radius: 50%;
+            box-shadow: 0 0 10px #4ade80;
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        .doc-link {
+            color: var(--text-white);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            padding: 10px 16px;
+            border-radius: 8px;
+            transition: all 0.2s;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+        }
+        
+        .doc-link:hover {
+            background: rgba(255,255,255,0.15);
+            transform: translateX(5px);
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .5; }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .info-pane { padding: 2rem; }
+            h1 { font-size: 1.8rem; }
+            .features-grid { grid-template-columns: 1fr; }
+            .info-footer { flex-direction: column; gap: 1.5rem; align-items: flex-start; }
+        }
+    </style>
 </head>
-
 <body>
-  <div class="frame">
 
-    <div class="logo">L1</div>
-    <h1>LeapOne Distribution Instance</h1>
+    <div class="info-pane">
+        <div class="content-wrapper">
+            <div class="brand-header">
+                <div class="logo-box">L1</div>
+                <h1>LeapOne Distribution Instance</h1>
+            </div>
 
-    <div class="card">
-      LeapOne is a foundational transformation initiative to modernize Leap's Salesforce architecture.
-      It unifies our U.S. Salesforce orgs into a centralized, scalable, and future-ready system.
+            <p class="description">
+                LeapOne is a foundational transformation initiative to modernize Leap's Salesforce architecture. 
+                It unifies our U.S. Salesforce orgs into a centralized, scalable, and future-ready system.
+            </p>
 
-      <div class="highlight">
-        In short: LeapOne ensures our tech can evolve with our business and scale with our growth.
-      </div>
+            <div class="highlight-box">
+                <strong>In Short</strong>
+                <p>LeapOne ensures our tech can evolve with our business and scale with our growth.</p>
+            </div>
+
+            <div class="features-section">
+                <h3>Key Features</h3>
+                <div class="features-grid">
+                    <div class="feature-tag">Modular Pricing</div>
+                    <div class="feature-tag">Multi-Tenant Data</div>
+                    <div class="feature-tag">Cleaner Renewals</div>
+                    <div class="feature-tag">Fraud Detection</div>
+                    <div class="feature-tag">Data Integrity</div>
+                    <div class="feature-tag">Operational Efficiency</div>
+                    <div class="feature-tag">Future-Proofing</div>
+                </div>
+            </div>
+            
+            <a href="#" class="doc-link">
+                <span>📚 Full Documentation</span>
+                <span>→</span>
+            </a>
+        </div>
+
+        <div class="info-footer">
+            <div class="status-indicator">
+                <div class="dot"></div>
+                <span>All Systems Operational</span>
+            </div>
+            <div>
+                <span>Dec 6, 2025</span>
+                <span style="margin: 0 12px; opacity: 0.4;">|</span>
+                <span>© 2025 Leap.</span>
+            </div>
+        </div>
     </div>
 
-    <div class="card">
-      <h2>Key Features</h2>
-      <div class="features">
-        <div class="feature">Modular Pricing</div>
-        <div class="feature">Multi-Tenant Data</div>
-        <div class="feature">Cleaner Renewals</div>
-        <div class="feature">Fraud Detection</div>
-        <div class="feature">Data Integrity</div>
-        <div class="feature">Operational Efficiency</div>
-        <div class="feature">Future-Proofing</div>
-      </div>
-    </div>
-
-    <a class="doc-link" href="https://leapdevops.atlassian.net/wiki/external/M2I2NzJhNmM1NDdiNDFhYWE0NWVkYjQ5NjcxZDU0YzE" target="_blank">
-      📚 Full Documentation
-      <span>→</span>
-    </a>
-
-    <div class="status">
-      <div style="display:flex; align-items:center; gap:8px;">
-        <span class="dot"></span>
-        <strong>All Systems Operational</strong>
-      </div>
-      <span>Dec 6, 2025</span>
-    </div>
-
-    <footer>© 2025 Leap. All rights reserved.</footer>
-
-  </div>
 </body>
 </html>
